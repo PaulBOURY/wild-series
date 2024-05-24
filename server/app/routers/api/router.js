@@ -21,7 +21,11 @@ router.use("/items", itemsRouter);
 
 const programRouter = require("./programs/router");
 
-router.use("/program", programRouter);
+router.use("/programs", programRouter);
+
+const categoriesRouter = require("./categories/router");
+
+router.use("/categories", categoriesRouter);
 /* ************************************************************************* */
 
 module.exports = router;
