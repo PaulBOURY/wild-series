@@ -17,7 +17,7 @@ const port = process.env.APP_PORT;
 // Get variables from .env file for database connection
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
-class CategoryRepository {
+class CategorySeeder {
   constructor() {
     // Create a connection pool to the database
     this.databaseClient = mysql.createPool({
@@ -29,10 +29,13 @@ class CategoryRepository {
     });
   }
 
-  async readAll() {
-    // Access data
-    const [rows] = await this.databaseClient.query("SELECT * FROM category");
-    return rows;
+  async run() {
+    // Create data
+    const [result] = await this.databaseClient.query(
+      "INSERT INTO category (name) VALUES ('Science-Fiction')"
+    );
+
+    return result.insertId;
   }
 
   close() {
@@ -41,21 +44,23 @@ class CategoryRepository {
   }
 }
 
-const accessData = async () => {
+const createData = async () => {
   try {
-    const categoryRepository = new CategoryRepository();
+    const categorySeeder = new CategorySeeder();
 
-    const categories = await categoryRepository.readAll();
+    const categories = await categorySeeder.run();
+
+    categorySeeder.close();
+
     console.info(categories);
-
-    categoryRepository.close();
   } catch (err) {
     console.error("Error accessing the database:", err.message, err.stack);
   }
 };
 
-// Run the accessData function
-accessData();
+// Run the createData function
+createData();
+
 
 // Start the server and listen on the specified port
 app
