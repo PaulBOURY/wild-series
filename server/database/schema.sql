@@ -21,7 +21,7 @@ CREATE TABLE program (
   title VARCHAR(100) NOT NULL,
   synopsis TEXT NOT NULL,
   poster VARCHAR(255) NOT NULL,
-  coutry VARCHAR(100) NOT NULL,
+  country VARCHAR(100) NOT NULL,
   year INT NOT NULL,
   category_id INT NOT NULL,
   FOREIGN KEY (category_id) REFERENCES category(id)
